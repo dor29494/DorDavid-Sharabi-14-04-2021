@@ -4,32 +4,35 @@ import Weather from "./view/Weather";
 import Favorite from "./view/Favorite";
 import { Switch, Route } from "react-router-dom";
 import { Container, CssBaseline, MuiThemeProvider } from "@material-ui/core";
-import theme,{darkTheme} from "./utils/theme";
+import theme, { darkTheme } from "./utils/theme";
 import { makeStyles } from "@material-ui/core/styles";
+import { useSelector } from "react-redux";
+
 
 const useStyles = makeStyles((theme) => ({
-  appContainer: { height: "100%",
+  appContainer: {
+    height: "100%",
     padding: 0,
-   display: "flex", 
-   justifyContent: "center" }
+    display: "flex",
+    justifyContent: "center",
+  },
 }));
 function App() {
-const classes = useStyles()
-const [light,setLight] = useState(false)
-const [cityKeyFetch,setCityKeyFetch] = useState('215854')
+  const darkMode = useSelector((state) => state.weather.darkMode);
+  const classes = useStyles();
+  const [light, setLight] = useState(false);
   return (
-    <MuiThemeProvider theme={light ? theme : darkTheme}>
+    <MuiThemeProvider theme={darkMode ? theme : darkTheme}>
       <CssBaseline />
       <div className="App" style={{ height: "100vh" }}>
-        <Header setLight={setLight} light={light}/>
-        <Container className={classes.appContainer}
-        >
+        <Header/>
+        <Container className={classes.appContainer}>
           <Switch>
             <Route exact path="/">
-              <Weather cityKeyFetch={cityKeyFetch} setCityKeyFetch={setCityKeyFetch}/>
+              <Weather />
             </Route>
             <Route path="/favorite">
-              <Favorite cityKeyFetch={cityKeyFetch} setCityKeyFetch={setCityKeyFetch}/>
+              <Favorite />
             </Route>
           </Switch>
         </Container>

@@ -9,29 +9,37 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { Favorite, Home } from "@material-ui/icons";
+import { useSelector, useDispatch } from "react-redux";
+import { darkModeToggle } from "../state/weather.slice";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
+
 // CSS STYLES
 
-const Header = ({ setLight, light }) => {
+const Header = () => {
+  const darkMode = useSelector((state) => state.weather.darkMode);
+  const dispatch = useDispatch();
+
   return (
     <>
       <Box component="nav">
         <AppBar
           position="static"
-          style={{ background: light ? "#E9EBEE" : "#202020" }}
+          style={{ background: darkMode ? "#E9EBEE" : "#202020" }}
         >
           <Container>
             <Toolbar>
               <IconButton component={Link} to="/favorite">
-                <Favorite style={{ color: light ? "black" : "white" }} />
+                <Favorite style={{ color: darkMode ? "black" : "white" }} />
                 <Typography variant="subtitle2">Favorite</Typography>
               </IconButton>
               <IconButton component={Link} to="/">
-                <Home style={{ color: light ? "black" : "white" }} />
+                <Home style={{ color: darkMode ? "black" : "white" }} />
                 <Typography variant="subtitle2">Home</Typography>
               </IconButton>
-              <IconButton onClick={() => setLight(!light)}>
-                <Brightness4Icon style={{ color: light ? "black" : "white" }} />
+              <IconButton onClick={() => dispatch(darkModeToggle(!darkMode))}>
+                <Brightness4Icon
+                  style={{ color: darkMode ? "black" : "white" }}
+                />
               </IconButton>
             </Toolbar>
           </Container>
